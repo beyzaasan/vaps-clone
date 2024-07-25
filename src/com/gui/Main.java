@@ -1,88 +1,81 @@
 package com.gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.awt.event.*;
+import java.util.*;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
-
-    JFrame mainFrame;
 
     public Main(){
         initComponents();
     }
 
     private void initComponents() {
-        
-        mainFrame = new JFrame("Vaps Clone");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800, 600);
+
+        setTitle("Vaps Clone");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
 
         // Create the main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Create a JSplitPane to divide the panel into left and right sections
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setDividerLocation(400); // Set initial divider location
-        splitPane.setDividerSize(2); // Set the size of the divider
+        // Üst kısım
+        JPanel topPanel = new JPanel(new GridBagLayout());
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setPreferredSize(new Dimension(800, 150));
+        JLabel titleLabel = new JLabel("Data Display");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        topPanel.add(titleLabel, gbc);
 
-        // Create the left panel with a list
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("Item 1");
-        listModel.addElement("Item 2");
-        listModel.addElement("Item 3");
-        listModel.addElement("Item 4");
-        listModel.addElement("Item 5");
-        JList<String> list = new JList<>(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
-        list.setVisibleRowCount(10);
-        list.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selectedItem = list.getSelectedValue();
-                JOptionPane.showMessageDialog(this, "You selected: " + selectedItem);
-            }
-        });
-        leftPanel.add(new JScrollPane(list), BorderLayout.CENTER);
+        // Alt kısım
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(new Color(34, 45, 50));  // Koyu renk arka plan
+        bottomPanel.setLayout(new GridLayout(2, 4, 10, 10));  // 2 satır, 4 sütun
 
-        // Create the right panel for other content
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Right Panel", SwingConstants.CENTER);
-        rightPanel.add(label, BorderLayout.CENTER);
+        // Kategoriler
+        String[] categories = {"Temperature", "", "", "", 
+                               "", "", "", ""};
+        for (String category : categories) {
+            JButton button = new JButton(category);
+            button.setPreferredSize(new Dimension(150, 100));
+            button.setForeground(Color.WHITE);
+            button.setBackground(new Color(60, 80, 100));
+            button.setFocusPainted(false);
+            button.setFont(new Font("Arial", Font.PLAIN, 16));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (category.equals("Temperature")) {
+                        new Temperature().setVisible(true);
+                    } else {
+                        // Handle other categories if needed
+                    }
+                }
+            });
+            bottomPanel.add(button);
+        }
 
-        // Add the panels to the split pane
-        splitPane.setLeftComponent(leftPanel);
-        splitPane.setRightComponent(rightPanel);
+        // Add panels to main panel
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(bottomPanel, BorderLayout.CENTER);
 
-        // Add the split pane to the main panel
-        mainPanel.add(splitPane, BorderLayout.CENTER);
+        getContentPane().add(mainPanel);
+    }
 
-        // Add the main panel to the frame
-        mainFrame.add(mainPanel);
-
-        // Make the frame visible after adding components
-        mainFrame.setVisible(true);
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+        // Open the main frame
+        new Temperature().setVisible(true);
+        System.out.println("temperature loaded");
+        // Close the login frame
+        this.dispose();
     }
 
 }

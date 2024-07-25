@@ -6,7 +6,6 @@ import javax.swing.*;
 
 public class WelcomePage extends javax.swing.JFrame{
 
-    JFrame welcome;
     private javax.swing.JButton btnNext;
 
     public WelcomePage() {
@@ -15,10 +14,10 @@ public class WelcomePage extends javax.swing.JFrame{
 
     private void initComponents(){
         
-        welcome = new JFrame("Vaps Clone");
-        welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        welcome.setSize(400, 300);
-        //setTitle("Vaps Clone");
+        setTitle("Vaps Clone");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
 
         // Create the main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -45,11 +44,8 @@ public class WelcomePage extends javax.swing.JFrame{
         // Add the button to the bottom of the main panel
         mainPanel.add(btnNext, BorderLayout.SOUTH);
 
-        // Add the main panel to the frame
-        welcome.add(mainPanel);
-
-        // Set the frame to be visible
-        welcome.setVisible(true);
+        getContentPane().add(mainPanel);
+        setVisible(true);
     }
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
