@@ -1,6 +1,9 @@
 package com.gui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -8,6 +11,9 @@ import java.io.*;
 import javax.imageio.*;
 
 public class Temperature extends javax.swing.JFrame {
+
+    private JSlider slider;
+    private JLabel tempLabel;
 
     public Temperature(){
         initComponents();
@@ -19,11 +25,10 @@ public class Temperature extends javax.swing.JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
 
-        // Create the main panel
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridLayout(1,2));
+        //mainPanel.setLayout(new BorderLayout());
 
-        JPanel whiteDashPanel = new JPanel();
+        /*JPanel whiteDashPanel = new JPanel();
         //whiteDashPanel.setLayout(new BorderLayout());
         whiteDashPanel.setPreferredSize(new Dimension(200, 300));
 
@@ -35,29 +40,58 @@ public class Temperature extends javax.swing.JFrame {
         whiteDashPanel.add(whiteDash, BorderLayout.CENTER);
 
         TempScroll tempScroll = new TempScroll(whiteDash); // Example position and size
-        whiteDashPanel.add(tempScroll);
+        whiteDashPanel.add(tempScroll);*/
+
+        tempLabel = new JLabel("25.0", JLabel.CENTER);
+        tempLabel.setFont(new Font("Serif", Font.BOLD, 48));
+        tempLabel.setOpaque(true);
+
+        // Slider
+        slider = new JSlider(JSlider.VERTICAL, 200, 500, 250); 
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                double temp = slider.getValue() / 10.0;
+                tempLabel.setText(String.valueOf(temp));
+                //updateLabelColor(temp);
+                //colorPanel.repaint();
+            }
+        });
 
         JPanel dashPanel = new JPanel(); //dashler alt alta olsun diye yeni center alignment yapcam
         dashPanel.setLayout(new BoxLayout(dashPanel, BoxLayout.Y_AXIS));
         
         // Number of dashes
-        int numberOfDashes = 10; // You can change this to add more or fewer dashes
+        int numberOfDashes = 10 * 5; // You can change this to add more or fewer dashes
 
-        for (int i = 0; i < numberOfDashes; i++) {
-            JLabel dashLabel = new JLabel("—  ");
-            dashLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        for (int i = numberOfDashes; i >= 20; i-=3) {
+            JLabel dashLabel = new JLabel("—  " + i);
+            dashLabel.setFont(new Font("Serif", Font.PLAIN, 18));
             dashLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align horizontally
             dashPanel.add(dashLabel);
         }
 
-        mainPanel.add(whiteDashPanel, BorderLayout.WEST);
-        mainPanel.add(dashPanel, BorderLayout.EAST);
+        //mainPanel.add(whiteDashPanel, BorderLayout.WEST);
+        mainPanel.add(tempLabel, BorderLayout.SOUTH);
+        mainPanel.add(slider, BorderLayout.CENTER);
+        mainPanel.add(dashPanel, BorderLayout.CENTER);
 
         // Add main panel to frame
         getContentPane().add(mainPanel);
 
         setVisible(true);
     }
+
+    private void updatePhotos(double temp) {
+        if (temp >= 1.0 && temp <= 5.0) {
+            //foto1
+        } else if (temp >= 5.1 && temp <= 9.0) {
+            //foto2
+        } else if (temp >= 9.1 && temp <= 14.0) {
+            //foto3
+        }
+    }
+
     class TempScroll extends JPanel {
         private BufferedImage image;
         private int x = 0;

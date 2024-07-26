@@ -11,6 +11,8 @@ import java.io.*;
 import javax.imageio.*;
 
 public class Lighting extends javax.swing.JFrame {
+    
+    ShowPanel shPanel;
 
     public Lighting(){
         initComponents();
@@ -20,12 +22,12 @@ public class Lighting extends javax.swing.JFrame {
 
         setTitle("Lighting");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(500, 400);
         setLocationRelativeTo(null);
 
         // Create the main panel
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
         JPanel stablePanel = new JPanel();
         stablePanel.setLayout(new BoxLayout(stablePanel, BoxLayout.Y_AXIS)); //alt alta olması için
@@ -35,16 +37,30 @@ public class Lighting extends javax.swing.JFrame {
         JPanel statePanel = new JPanel();
         statePanel.setLayout(new BoxLayout(statePanel, BoxLayout.Y_AXIS));
         StatePanel statPanel = new StatePanel(); 
-        stablePanel.add(statPanel);
+        statePanel.add(statPanel);
 
         JPanel showPanel = new JPanel();
         showPanel.setLayout(new BoxLayout(showPanel, BoxLayout.Y_AXIS));
+        shPanel = new ShowPanel();
+        showPanel.add(shPanel);
 
-        mainPanel.add(stablePanel, BorderLayout.WEST);
-        mainPanel.add(statePanel, BorderLayout.CENTER);
+        mainPanel.add(stablePanel, BorderLayout.CENTER);
+        mainPanel.add(statePanel);
+        mainPanel.add(showPanel);
+
 
         getContentPane().add(mainPanel);
         setVisible(true);
+    }
+
+    private static JPanel createChildPanel(String panelName) {
+        // Create a child panel with three rows
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        for (int i = 1; i <= 3; i++) {
+            panel.add(new JLabel("Row " + i + " - " + panelName));
+        }
+        return panel;
     }
 
         class StablePanel extends JPanel{
@@ -65,6 +81,7 @@ public class Lighting extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -122,7 +139,12 @@ public class Lighting extends javax.swing.JFrame {
                             // Replace the image in the selected section with image5
                             images[selectedIndex] = image5;
                             repaint();
+                            updateShowPanel(selectedIndex);
                         }
+                    }
+
+                    private void updateShowPanel(int index) {
+                        shPanel.setImage(images[index]);
                     }
                 });
             }
@@ -142,7 +164,32 @@ public class Lighting extends javax.swing.JFrame {
         }
 
         class ShowPanel extends JPanel{
-            
+            private BufferedImage image, image6, image7, image8;
+
+            public ShowPanel(){
+                try {
+                    image6 = ImageIO.read(getClass().getResource("../../images/red-2.png"));
+                    image7 = ImageIO.read(getClass().getResource("../../images/orange-2.png"));
+                    image8 = ImageIO.read(getClass().getResource("../../images/yellow-2.png"));
+                    if (image6 != null && image7 != null && image8 != null) {
+                        System.out.println("Images2 loaded successfully");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void setImage(BufferedImage img){
+                this.image = img;
+                repaint();
+            }
+
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if(image != null){
+                    g.drawImage(image, 0,0, getWidth(), getHeight(), this);
+                }
+            }
         }
     
 }
