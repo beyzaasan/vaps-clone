@@ -13,6 +13,8 @@ import javax.imageio.*;
 public class Lighting extends javax.swing.JFrame {
     
     ShowPanel shPanel;
+    StablePanel stabPanel;
+    StatePanel statPanel;
 
     public Lighting(){
         initComponents();
@@ -31,12 +33,12 @@ public class Lighting extends javax.swing.JFrame {
 
         JPanel stablePanel = new JPanel();
         stablePanel.setLayout(new BoxLayout(stablePanel, BoxLayout.Y_AXIS)); //alt alta olması için
-        StablePanel stabPanel = new StablePanel();
+        stabPanel = new StablePanel();
         stablePanel.add(stabPanel);
 
         JPanel statePanel = new JPanel();
         statePanel.setLayout(new BoxLayout(statePanel, BoxLayout.Y_AXIS));
-        StatePanel statPanel = new StatePanel(); 
+        statPanel = new StatePanel(); 
         statePanel.add(statPanel);
 
         JPanel showPanel = new JPanel();
@@ -67,6 +69,7 @@ public class Lighting extends javax.swing.JFrame {
             private BufferedImage image1, image2, image3;
             private int x = 0;
             private int y = 0;
+            private BufferedImage[] images;
         
             public StablePanel() {
         
@@ -74,12 +77,20 @@ public class Lighting extends javax.swing.JFrame {
                     image1 = ImageIO.read(getClass().getResource("../../images/red-2.png"));
                     image2 = ImageIO.read(getClass().getResource("../../images/orange-2.png"));
                     image3 = ImageIO.read(getClass().getResource("../../images/yellow-2.png"));
+                    images = new BufferedImage[]{image1, image2, image3};
                     if (image1 != null && image2 != null && image3 != null) {
                         System.out.println("Images1 loaded successfully");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            public BufferedImage getImage(int index) {
+                if (index >= 0 && index < images.length) {
+                    return images[index];
+                }
+                return null;
             }
 
             @Override
@@ -122,7 +133,6 @@ public class Lighting extends javax.swing.JFrame {
                 addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        int panelWidth = getWidth();
                         int panelHeight = getHeight();
                         int sectionHeight = panelHeight / 3;  // Height of each section
         
@@ -139,12 +149,16 @@ public class Lighting extends javax.swing.JFrame {
                             // Replace the image in the selected section with image5
                             images[selectedIndex] = image5;
                             repaint();
-                            updateShowPanel(selectedIndex);
+                            updateShowPanel();
                         }
                     }
 
-                    private void updateShowPanel(int index) {
-                        shPanel.setImage(images[index]);
+                    private void updateShowPanel() {
+                        BufferedImage[] selectedImages = new BufferedImage[3];
+                        for (int i = 0; i < selectedImages.length; i++) {
+                            selectedImages[i] = (images[i] == image5) ? stabPanel.getImage(i) : null;
+                        }
+                        shPanel.setImages(selectedImages);
                     }
                 });
             }
@@ -164,32 +178,32 @@ public class Lighting extends javax.swing.JFrame {
         }
 
         class ShowPanel extends JPanel{
-            private BufferedImage image, image6, image7, image8;
+            private BufferedImage[] images;
 
-            public ShowPanel(){
-                try {
-                    image6 = ImageIO.read(getClass().getResource("../../images/red-2.png"));
-                    image7 = ImageIO.read(getClass().getResource("../../images/orange-2.png"));
-                    image8 = ImageIO.read(getClass().getResource("../../images/yellow-2.png"));
-                    if (image6 != null && image7 != null && image8 != null) {
-                        System.out.println("Images2 loaded successfully");
+        public ShowPanel() {
+            setPreferredSize(new Dimension(200, 300));
+            images = new BufferedImage[3];
+        }
+
+        public void setImages(BufferedImage[] imgs) {
+            this.images = imgs;
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (images != null) {
+                int yOffset = 0;
+                int sectionHeight = getHeight() / 3;
+                for (BufferedImage img : images) {
+                    if (img != null) {
+                        g.drawImage(img, 0, yOffset, getWidth(), sectionHeight, this);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            public void setImage(BufferedImage img){
-                this.image = img;
-                repaint();
-            }
-
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if(image != null){
-                    g.drawImage(image, 0,0, getWidth(), getHeight(), this);
+                    yOffset += sectionHeight;
                 }
             }
         }
+    }
     
 }
