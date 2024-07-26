@@ -1,13 +1,9 @@
 package com.gui;
 
 import javax.swing.*;
-
-import com.gui.Temperature.TempScroll;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.io.*;
 import javax.imageio.*;
 
 public class Lighting extends javax.swing.JFrame {
@@ -15,6 +11,7 @@ public class Lighting extends javax.swing.JFrame {
     ShowPanel shPanel;
     StablePanel stabPanel;
     StatePanel statPanel;
+    JPanel mainPanel;
 
     public Lighting(){
         initComponents();
@@ -28,7 +25,7 @@ public class Lighting extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         // Create the main panel
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
         JPanel stablePanel = new JPanel();
@@ -55,16 +52,10 @@ public class Lighting extends javax.swing.JFrame {
         setVisible(true);
     }
 
-    private static JPanel createChildPanel(String panelName) {
-        // Create a child panel with three rows
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (int i = 1; i <= 3; i++) {
-            panel.add(new JLabel("Row " + i + " - " + panelName));
-        }
-        return panel;
+    public JPanel getJPanel(){
+        return mainPanel;
     }
-
+    
         class StablePanel extends JPanel{
             private BufferedImage image1, image2, image3;
             private int x = 0;
@@ -158,11 +149,11 @@ public class Lighting extends javax.swing.JFrame {
                     }
 
                     private void updateShowPanel() {
-                        BufferedImage[] selectedImages = new BufferedImage[3];
-                        for (int i = 0; i < selectedImages.length; i++) {
-                            selectedImages[i] = (images[i] == image5) ? stabPanel.getImage(i) : null;
+                        BufferedImage selectedImage = null;
+                        if (selectedIndex != -1) {
+                            selectedImage = stabPanel.getImage(selectedIndex);
                         }
-                        shPanel.setImages(selectedImages);
+                        shPanel.setImages(selectedImage);
                     }
                 });
             }
@@ -182,30 +173,25 @@ public class Lighting extends javax.swing.JFrame {
         }
 
         class ShowPanel extends JPanel{
-            private BufferedImage[] images;
+            private BufferedImage image;
 
         public ShowPanel() {
             setPreferredSize(new Dimension(200, 300));
-            images = new BufferedImage[3];
+            //images = new BufferedImage[3];
         }
 
-        public void setImages(BufferedImage[] imgs) {
-            this.images = imgs;
+        public void setImages(BufferedImage imgs) {
+            this.image = imgs;
             repaint();
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (images != null) {
-                int yOffset = 0;
-                int sectionHeight = getHeight() / 3;
-                for (BufferedImage img : images) {
-                    if (img != null) {
-                        g.drawImage(img, 0, yOffset, getWidth(), sectionHeight, this);
-                    }
-                    yOffset += sectionHeight;
-                }
+            if (image != null) {
+                int x = (getWidth() - image.getWidth()) / 2;
+                int y = (getHeight() - image.getHeight()) / 2;
+                g.drawImage(image, x, y, this);
             }
         }
     }

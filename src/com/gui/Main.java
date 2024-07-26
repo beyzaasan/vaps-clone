@@ -2,10 +2,7 @@ package com.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
 
@@ -42,7 +39,7 @@ public class Main extends javax.swing.JFrame {
 
         // Kategoriler
         String[] categories = {"Temperature", "Lighting", "Watering", "SoilAcidity", 
-                               "", "", "", ""};
+                               "All", "", "", ""};
         for (String category : categories) {
             JButton button = new JButton(category);
             button.setPreferredSize(new Dimension(150, 100));
@@ -61,8 +58,8 @@ public class Main extends javax.swing.JFrame {
                         new Watering().setVisible(true);
                     } else if (category.equals("SoilAcidity")) {
                         new SoilAcidity().setVisible(true);
-                    } else if (category.equals("")) {
-
+                    } else if (category.equals("All")) {
+                        new All().setVisible(true);
                     } else{
                          // Handle other categories if needed
                     }
@@ -77,15 +74,6 @@ public class Main extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
     }
-
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
-        // Open the main frame
-        new Temperature().setVisible(true);
-        System.out.println("temperature loaded");
-        // Close the login frame
-        this.dispose();
-    }
-
 }
 
 

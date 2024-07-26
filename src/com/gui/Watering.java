@@ -11,6 +11,7 @@ public class Watering extends javax.swing.JFrame {
     private int waterCount = 0; // Counter for water drops
     private Button button;
     private JPanel waterPanel; // Updated to JPanel
+    JPanel mainPanel;
 
     public Watering() {
         initComponents();
@@ -23,7 +24,7 @@ public class Watering extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         // Create the main panel
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
         button = new Button();
@@ -49,6 +50,10 @@ public class Watering extends javax.swing.JFrame {
         setVisible(true);
     }
 
+    public JPanel getJPanel(){
+        return mainPanel;
+    }
+
     private void updateWaterDrops() {
         waterPanel.removeAll();
         for (int i = 0; i < waterCount; i++) {
@@ -59,6 +64,7 @@ public class Watering extends javax.swing.JFrame {
     }
 
     class Button extends JPanel {
+        @SuppressWarnings("unused")
         private BufferedImage image;
 
         public Button() {

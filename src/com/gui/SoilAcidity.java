@@ -9,6 +9,7 @@ public class SoilAcidity extends JFrame {
     private JSlider slider;
     private JLabel phLabel;
     private JPanel colorPanel;
+    JPanel mainPanel;
 
     public SoilAcidity() {
         initComponents();
@@ -21,7 +22,7 @@ public class SoilAcidity extends JFrame {
         setLocationRelativeTo(null);
 
         // Main panel with BorderLayout
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
 
         // PH Label
         phLabel = new JLabel("7", JLabel.CENTER);
@@ -77,6 +78,10 @@ public class SoilAcidity extends JFrame {
         } else if (phValue >= 9.1 && phValue <= 14.0) {
             phLabel.setBackground(Color.GREEN);
         }
+    }
+
+    public JPanel getJPanel(){
+        return mainPanel;
     }
 
 }
