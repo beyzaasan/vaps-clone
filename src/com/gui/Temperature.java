@@ -70,8 +70,7 @@ public class Temperature extends javax.swing.JFrame {
             this.whiteDash = whiteDash;
     
             try {
-                File file = new File("/Users/beyzaasan/Downloads/button-2.png");
-                image = ImageIO.read(file);
+                image = ImageIO.read(getClass().getResource("../../images/button-2.png"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

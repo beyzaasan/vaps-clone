@@ -55,12 +55,9 @@ public class Lighting extends javax.swing.JFrame {
             public StablePanel() {
         
                 try {
-                    File file1 = new File("/Users/beyzaasan/Downloads/red-2.png");
-                    image1 = ImageIO.read(file1);
-                    File file2 = new File("/Users/beyzaasan/Downloads/orange-2.png");
-                    image2 = ImageIO.read(file2);
-                    File file3 = new File("/Users/beyzaasan/Downloads/yellow-2.png");
-                    image3 = ImageIO.read(file3);
+                    image1 = ImageIO.read(getClass().getResource("../../images/red-2.png"));
+                    image2 = ImageIO.read(getClass().getResource("../../images/orange-2.png"));
+                    image3 = ImageIO.read(getClass().getResource("../../images/yellow-2.png"));
                     if (image1 != null && image2 != null && image3 != null) {
                         System.out.println("Images1 loaded successfully");
                     }
@@ -95,10 +92,8 @@ public class Lighting extends javax.swing.JFrame {
             public StatePanel() {
         
                 try {
-                    File file4 = new File("/Users/beyzaasan/Downloads/grey-3.png");
-                    image4 = ImageIO.read(file4);
-                    File file5 = new File("/Users/beyzaasan/Downloads/blue-2.png");
-                    image5 = ImageIO.read(file5);
+                    image4 = ImageIO.read(getClass().getResource("../../images/grey-3.png"));
+                    image5 = ImageIO.read(getClass().getResource("../../images/blue-2.png"));
 
                     images = new BufferedImage[] { image4, image4, image4 };
                     

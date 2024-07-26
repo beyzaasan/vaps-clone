@@ -63,7 +63,7 @@ public class Watering extends javax.swing.JFrame {
 
         public Button() {
             try {
-                File file = new File("/Users/beyzaasan/Downloads/blue.png");
+                File file = new File("../../images/blue.png");
                 image = ImageIO.read(file);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,8 +91,7 @@ public class Watering extends javax.swing.JFrame {
 
         public Water() {
             try {
-                File file = new File("/Users/beyzaasan/Downloads/drop-2.png");
-                image = ImageIO.read(file);
+                image = ImageIO.read(getClass().getResource("../../images/drop-2.png"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
