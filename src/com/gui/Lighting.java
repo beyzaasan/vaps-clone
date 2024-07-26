@@ -146,7 +146,11 @@ public class Lighting extends javax.swing.JFrame {
                         }
         
                         if (selectedIndex != -1) {
-                            // Replace the image in the selected section with image5
+                            // Reset all sections to grey
+                            for (int i = 0; i < images.length; i++) {
+                                images[i] = image4;
+                            }
+                            // Set the selected section to blue
                             images[selectedIndex] = image5;
                             repaint();
                             updateShowPanel();
