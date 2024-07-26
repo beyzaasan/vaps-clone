@@ -34,7 +34,7 @@ public class Temperature extends javax.swing.JFrame {
         whiteDashPanel.setLayout(new BoxLayout(whiteDashPanel, BoxLayout.Y_AXIS));
         whiteDashPanel.add(whiteDash, BorderLayout.CENTER);
 
-        TempScroll tempScroll = new TempScroll(); // Example position and size
+        TempScroll tempScroll = new TempScroll(whiteDash); // Example position and size
         whiteDashPanel.add(tempScroll);
 
         JPanel dashPanel = new JPanel(); //dashler alt alta olsun diye yeni center alignment yapcam
@@ -58,14 +58,17 @@ public class Temperature extends javax.swing.JFrame {
 
         setVisible(true);
     }
-    class TempScroll extends JPanel{
+    class TempScroll extends JPanel {
         private BufferedImage image;
         private int x = 0;
         private int y = 0;
         private int prevY = 0;
         private boolean dragging = false;
-
-        public TempScroll() {
+        private JLabel whiteDash;
+    
+        public TempScroll(JLabel whiteDash) {
+            this.whiteDash = whiteDash;
+    
             try {
                 File file = new File("/Users/beyzaasan/Downloads/button-2.png");
                 image = ImageIO.read(file);
@@ -73,22 +76,21 @@ public class Temperature extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 
+            y = whiteDash.getY() + (whiteDash.getHeight() - image.getHeight()) / 2;    
             addMouseListener(new MouseListener() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    // Mouse basıldığında, hareket etmeye başlayın
                     if (e.getX() >= x && e.getX() <= x + image.getWidth() && e.getY() >= y && e.getY() <= y + image.getHeight()) {
                         dragging = true;
                         prevY = e.getY();
                     }
                 }
-
+    
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    // Mouse bırakıldığında, hareket etmeyi durdurun
                     dragging = false;
                 }
-
+    
                 @Override
                 public void mouseClicked(MouseEvent e) {}
                 @Override
@@ -96,24 +98,30 @@ public class Temperature extends javax.swing.JFrame {
                 @Override
                 public void mouseExited(MouseEvent e) {}
             });
-
+    
             addMouseMotionListener(new MouseMotionListener() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (dragging) {
-                        // Mouse hareket ederken, y koordinatını güncelle
                         int deltaY = e.getY() - prevY;
-                        y += deltaY;
-                        prevY = e.getY();
-                        repaint();
+                        int newY = y + deltaY;
+    
+                        // Restrict movement within the bounds of the white dash label
+                        int whiteDashHeight = whiteDash.getHeight();
+                        int maxY = whiteDash.getY() + whiteDashHeight - image.getHeight();
+                        if (newY >= whiteDash.getY() && newY <= maxY) {
+                            y = newY;
+                            prevY = e.getY();
+                            repaint();
+                        }
                     }
                 }
-
+    
                 @Override
                 public void mouseMoved(MouseEvent e) {}
             });
         }
-
+    
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

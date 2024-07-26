@@ -41,7 +41,7 @@ public class Main extends javax.swing.JFrame {
         bottomPanel.setLayout(new GridLayout(2, 4, 10, 10));  // 2 satır, 4 sütun
 
         // Kategoriler
-        String[] categories = {"Temperature", "", "", "", 
+        String[] categories = {"Temperature", "Lighting", "Watering", "SoilAcidity", 
                                "", "", "", ""};
         for (String category : categories) {
             JButton button = new JButton(category);
@@ -53,10 +53,18 @@ public class Main extends javax.swing.JFrame {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (category.equals("Temperature")) {
+                    if (category.equals("Temperature")) { 
                         new Temperature().setVisible(true);
-                    } else {
-                        // Handle other categories if needed
+                    } else if(category.equals("Lighting")) {
+                        new Lighting().setVisible(true);
+                    }  else if (category.equals("Watering")){
+                        new Watering().setVisible(true);
+                    } else if (category.equals("SoilAcidity")) {
+                        new SoilAcidity().setVisible(true);
+                    } else if (category.equals("")) {
+
+                    } else{
+                         // Handle other categories if needed
                     }
                 }
             });
