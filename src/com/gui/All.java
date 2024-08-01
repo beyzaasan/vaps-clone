@@ -3,37 +3,74 @@ package com.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class All extends javax.swing.JFrame{
+public class All extends JFrame {
 
-    JPanel mainPanel;
-
-    public All(){
+    public All() {
         initComponents();
     }
 
-    private void initComponents(){
-        setTitle("Vaps Clone");
-        setSize(800, 600);
+    private void initComponents() {
+        setTitle("All Panels");
+        setSize(1200, 900); // Panel boyutlarına göre genişletildi
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mainPanel = new JPanel(new GridLayout(2,2));
+        // Create the main panel with GridBagLayout
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10); // Padding around each panel
 
-        Lighting lighting = new Lighting();
-        //lighting.getJPanel().add(new JLabel("Lighting"));
-        SoilAcidity soilAcidity = new SoilAcidity();
-        //soilAcidity.getJPanel().add(new JLabel("soilAcidity"));
-        Temperature temperature = new Temperature();
-        //temperature.getJPanel().add(new JLabel("temperature"));
-        Watering watering = new Watering();
-        //watering.getJPanel().add(new JLabel("watering"));
+        // Create and add the panels
+        JPanel tempPanel = new Temperature().getJPanel();
+        JPanel lightPanel = new Lighting().getJPanel();
+        JPanel soilPanel = new SoilAcidity().getJPanel();
+        JPanel waterPanel = new Watering().getJPanel();
 
-        mainPanel.add(lighting.getJPanel());
-        mainPanel.add(soilAcidity.getJPanel());
-        mainPanel.add(temperature.getJPanel());
-        mainPanel.add(watering.getJPanel());
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 2;
+        mainPanel.add(createPanelWithBorder("Watering", waterPanel), gbc);
 
-        getContentPane().add(mainPanel);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        mainPanel.add(createPanelWithBorder("Lighting", lightPanel), gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        mainPanel.add(createPanelWithBorder("Temperature", tempPanel), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        mainPanel.add(createPanelWithBorder("Soil Acidity", soilPanel), gbc);
+
+        // Add title label at the top
+        JLabel titleLabel = new JLabel("Control Panel", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        titleLabel.setForeground(new Color(0, 77, 0)); // Dark green color
+        titleLabel.setPreferredSize(new Dimension(getWidth(), 60));
+
+        // Add title and mainPanel to the frame
+        getContentPane().add(titleLabel, BorderLayout.NORTH);
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
+
         setVisible(true);
+    }
 
+    private JPanel createPanelWithBorder(String title, JPanel panel) {
+        JPanel borderedPanel = new JPanel(new BorderLayout());
+        borderedPanel.setBorder(BorderFactory.createTitledBorder(title));
+        borderedPanel.add(panel, BorderLayout.CENTER);
+        return borderedPanel;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new All());
     }
 }

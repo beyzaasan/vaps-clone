@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.io.*;
 import javax.imageio.*;
 
 public class Watering extends javax.swing.JFrame {
@@ -21,13 +20,17 @@ public class Watering extends javax.swing.JFrame {
         setTitle("Watering System");
         setSize(800, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create the main panel with BorderLayout
         mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(255, 250, 240)); // Beige-like background
 
         button = new Button();
         button.setPreferredSize(new Dimension(400, 200));
+        button.setBackground(new Color(173, 216, 230)); // Light blue background
+        button.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2)); // Soft blue border
+        button.setForeground(new Color(70, 130, 180)); // Soft blue text
+        button.setFont(new Font("Arial", Font.BOLD, 24));
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -39,6 +42,7 @@ public class Watering extends javax.swing.JFrame {
 
         waterPanel = new JPanel(); // Updated to JPanel
         waterPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Center align the water drops
+        waterPanel.setBackground(new Color(255, 250, 240)); // Beige-like background
 
         // Add button and waterPanel to mainPanel
         mainPanel.add(button, BorderLayout.CENTER);
@@ -79,24 +83,25 @@ public class Watering extends javax.swing.JFrame {
             super.paintComponent(g);
 
             // Get the panel's width and height
-        int panelWidth = getWidth();
-        int panelHeight = getHeight();
-        int xOffset = 0;
-        int yOffset = 0;
+            int panelWidth = getWidth();
+            int panelHeight = getHeight();
+            int xOffset = 0;
+            int yOffset = 0;
 
-        // Draw the circular knob
-        if (image != null) {
-            int imageWidth = image.getWidth();
-            int imageHeight = image.getHeight();
+            // Draw the circular knob
+            if (image != null) {
+                int imageWidth = image.getWidth();
+                int imageHeight = image.getHeight();
 
-            // Calculate x and y offsets to center the image
-            xOffset = (panelWidth - imageWidth) / 2;
-            yOffset = (panelHeight - imageHeight) / 2;
+                // Calculate x and y offsets to center the image
+                xOffset = (panelWidth - imageWidth) / 2;
+                yOffset = (panelHeight - imageHeight) / 2;
 
-            // Draw the image centered in the panel
-            g.drawImage(image, xOffset, yOffset, this);
-        }
-            g.setColor(Color.WHITE);
+                // Draw the image centered in the panel
+                g.drawImage(image, xOffset, yOffset, this);
+            }
+
+            g.setColor(new Color(70, 130, 180)); // Soft blue text color
             g.drawString("2", panelWidth / 2 - 10, panelHeight / 2 + 90);
             g.drawString("1", panelWidth / 2 + 70, panelHeight / 2 );
             g.drawString("0", panelWidth / 2 - 10, panelHeight / 2 - 70);
@@ -114,13 +119,15 @@ public class Watering extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            setPreferredSize(new Dimension(50, 50));
+            setPreferredSize(new Dimension(80, 80));
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.drawImage(image, 0, 0, this);
+            if (image != null) {
+                g.drawImage(image, 0, 0, this);
+            }
         }
     }
 

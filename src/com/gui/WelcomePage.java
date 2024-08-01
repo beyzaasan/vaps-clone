@@ -17,8 +17,7 @@ public class WelcomePage extends javax.swing.JFrame {
     private void initComponents() {
 
         setTitle("Vaps Clone");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 600);
         setLocationRelativeTo(null);
 
         // Create the main panel with BorderLayout
