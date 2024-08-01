@@ -26,13 +26,19 @@ public class Lighting extends JFrame {
         // Create the main panel
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1, 3, 10, 10)); // 1 satır, 3 sütun, aralarında 10 piksel boşluk
+        mainPanel.setBackground(new Color(255, 250, 240)); // Soft beige background
 
         stabPanel = new StablePanel();
         stabPanel.setPreferredSize(new Dimension(200, 600)); // Panel boyutunu ayarla
+        stabPanel.setBackground(new Color(240, 230, 220)); // Light beige background
+
         statPanel = new StatePanel();
         statPanel.setPreferredSize(new Dimension(200, 600)); // Panel boyutunu ayarla
+        statPanel.setBackground(new Color(240, 230, 220)); // Light beige background
+
         shPanel = new ShowPanel();
         shPanel.setPreferredSize(new Dimension(200, 600)); // Panel boyutunu ayarla
+        shPanel.setBackground(new Color(240, 230, 220)); // Match main panel background
 
         mainPanel.add(stabPanel);
         mainPanel.add(statPanel);
