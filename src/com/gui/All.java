@@ -41,6 +41,7 @@ public class All extends JFrame {
         gbc.gridheight = 1;
         mainPanel.add(createPanelWithBorder("Lighting", lightPanel), gbc);
 
+        //
         gbc.gridx = 2;
         gbc.gridy = 1;
         mainPanel.add(createPanelWithBorder("Temperature", tempPanel), gbc);
