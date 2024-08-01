@@ -17,7 +17,7 @@ public class SoilAcidity extends JFrame {
 
     private void initComponents() {
         setTitle("Soil Acidity");
-        setSize(400, 300);
+        setSize(800, 600);
         setLocationRelativeTo(null);
 
         // Main panel with BorderLayout

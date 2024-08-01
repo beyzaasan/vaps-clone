@@ -42,10 +42,10 @@ public class Main extends javax.swing.JFrame {
         for (String category : categories) {
             JButton button = new JButton();
             button.setPreferredSize(new Dimension(150, 100));
-            button.setForeground(Color.WHITE);
+            button.setForeground(Color.DARK_GRAY);
             button.setBackground(new Color(60, 80, 100));
             button.setFocusPainted(false);
-            button.setFont(new Font("Arial", Font.PLAIN, 16));
+            button.setFont(new Font("Arial", Font.BOLD, 16));
             button.setText(category);
             button.addActionListener(new ActionListener() {
                 @Override

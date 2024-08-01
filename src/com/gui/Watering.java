@@ -11,7 +11,7 @@ public class Watering extends javax.swing.JFrame {
     private int waterCount = 0; // Counter for water drops
     private Button button;
     private JPanel waterPanel; // Updated to JPanel
-    JPanel mainPanel;
+    private JPanel mainPanel;
 
     public Watering() {
         initComponents();
@@ -19,12 +19,12 @@ public class Watering extends javax.swing.JFrame {
 
     private void initComponents() {
         setTitle("Watering System");
-        setSize(400, 300);
+        setSize(800, 600);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create the main panel
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        // Create the main panel with BorderLayout
+        mainPanel = new JPanel(new BorderLayout());
 
         button = new Button();
         button.setPreferredSize(new Dimension(400, 200));
@@ -38,18 +38,18 @@ public class Watering extends javax.swing.JFrame {
         });
 
         waterPanel = new JPanel(); // Updated to JPanel
-        waterPanel.setLayout(new BoxLayout(waterPanel, BoxLayout.X_AXIS));
+        waterPanel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Center align the water drops
 
+        // Add button and waterPanel to mainPanel
         mainPanel.add(button, BorderLayout.CENTER);
         mainPanel.add(waterPanel, BorderLayout.SOUTH);
 
         // Add main panel to frame
         getContentPane().add(mainPanel);
-        
         setVisible(true);
     }
 
-    public JPanel getJPanel(){
+    public JPanel getJPanel() {
         return mainPanel;
     }
 
@@ -68,8 +68,7 @@ public class Watering extends javax.swing.JFrame {
 
         public Button() {
             try {
-                File file = new File("../../images/blue.png");
-                image = ImageIO.read(file);
+                image = ImageIO.read(getClass().getResource("../../images/blue.png"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,15 +78,30 @@ public class Watering extends javax.swing.JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            // Draw the circular knob
-            g.setColor(Color.BLUE);
-            g.fillOval(100, 20, 200, 200);
+            // Get the panel's width and height
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+        int xOffset = 0;
+        int yOffset = 0;
+
+        // Draw the circular knob
+        if (image != null) {
+            int imageWidth = image.getWidth();
+            int imageHeight = image.getHeight();
+
+            // Calculate x and y offsets to center the image
+            xOffset = (panelWidth - imageWidth) / 2;
+            yOffset = (panelHeight - imageHeight) / 2;
+
+            // Draw the image centered in the panel
+            g.drawImage(image, xOffset, yOffset, this);
+        }
             g.setColor(Color.WHITE);
-            g.drawString("2", 190, 220);
-            g.drawString("1", 270, 150);
-            g.drawString("0", 190, 80);
-            g.drawString("3", 110, 150);
-            g.drawLine(200, 120, 200 + (int) (60 * Math.cos(Math.toRadians(waterCount * 90 - 90))), 120 + (int) (60 * Math.sin(Math.toRadians(waterCount * 90 - 90))));
+            g.drawString("2", panelWidth / 2 - 10, panelHeight / 2 + 90);
+            g.drawString("1", panelWidth / 2 + 70, panelHeight / 2 );
+            g.drawString("0", panelWidth / 2 - 10, panelHeight / 2 - 70);
+            g.drawString("3", panelWidth / 2 - 80, panelHeight / 2);
+            g.drawLine(panelWidth / 2, panelHeight / 2, panelWidth / 2 + (int) (60 * Math.cos(Math.toRadians(waterCount * 90 - 90))), panelHeight / 2 + (int) (60 * Math.sin(Math.toRadians(waterCount * 90 - 90))));
         }
     }
 
