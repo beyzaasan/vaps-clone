@@ -35,18 +35,18 @@ public class Main extends javax.swing.JFrame {
         // Alt kısım
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(new Color(34, 45, 50));  // Koyu renk arka plan
-        bottomPanel.setLayout(new GridLayout(2, 4, 10, 10));  // 2 satır, 4 sütun
+        bottomPanel.setLayout(new GridLayout(1, 4, 10, 10));  // 2 satır, 4 sütun
 
         // Kategoriler
-        String[] categories = {"Temperature", "Lighting", "Watering", "SoilAcidity", 
-                               "All", "", "", ""};
+        String[] categories = {"Temperature", "Lighting", "Watering", "SoilAcidity"};
         for (String category : categories) {
-            JButton button = new JButton(category);
+            JButton button = new JButton();
             button.setPreferredSize(new Dimension(150, 100));
             button.setForeground(Color.WHITE);
             button.setBackground(new Color(60, 80, 100));
             button.setFocusPainted(false);
             button.setFont(new Font("Arial", Font.PLAIN, 16));
+            button.setText(category);
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -58,21 +58,36 @@ public class Main extends javax.swing.JFrame {
                         new Watering().setVisible(true);
                     } else if (category.equals("SoilAcidity")) {
                         new SoilAcidity().setVisible(true);
-                    } else if (category.equals("All")) {
-                        new All().setVisible(true);
-                    } else{
-                         // Handle other categories if needed
+                    }else{
+                        //
                     }
                 }
             });
             bottomPanel.add(button);
         }
 
+        JButton all = new JButton();
+        all.setFont(new java.awt.Font("Tahoma", 0, 14));
+        all.setText("Show all panel together");
+
+        all.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowAll(evt);
+            }
+        });
+
         // Add panels to main panel
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(bottomPanel, BorderLayout.CENTER);
+        //mainPanel.add(all, BorderLayout.SOUTH);
 
         getContentPane().add(mainPanel);
+    }
+
+    private void btnShowAll(java.awt.event.ActionEvent evt) {
+        // Open the main frame
+        new All().setVisible(true);
+        System.out.println("All loaded");
     }
 }
 

@@ -20,7 +20,6 @@ public class Lighting extends javax.swing.JFrame {
     private void initComponents(){
 
         setTitle("Lighting");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 400);
         setLocationRelativeTo(null);
 
@@ -54,6 +53,13 @@ public class Lighting extends javax.swing.JFrame {
 
     public JPanel getJPanel(){
         return mainPanel;
+    }
+
+    public JLabel getHeading(Lighting lighting){
+
+        JLabel label = new JLabel("Lighting", SwingConstants.CENTER);
+        return label;
+
     }
     
         class StablePanel extends JPanel{

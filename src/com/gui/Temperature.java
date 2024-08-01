@@ -18,7 +18,6 @@ public class Temperature extends javax.swing.JFrame {
 
     private void initComponents(){
         setTitle("Temperature");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
 

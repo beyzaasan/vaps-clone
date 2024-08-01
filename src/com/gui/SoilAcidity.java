@@ -17,7 +17,6 @@ public class SoilAcidity extends JFrame {
 
     private void initComponents() {
         setTitle("Soil Acidity");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
 

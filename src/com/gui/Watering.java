@@ -19,7 +19,6 @@ public class Watering extends javax.swing.JFrame {
 
     private void initComponents() {
         setTitle("Watering System");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
 
